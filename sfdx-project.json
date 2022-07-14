@@ -12,6 +12,6 @@
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "54.0",
     "packageAliases": {
-        "apex-mock": ""
+        "apex-mock": "0Ho3a000000k9bXCAQ"
     }
 }
