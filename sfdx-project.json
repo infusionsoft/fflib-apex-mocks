@@ -2,7 +2,10 @@
     "packageDirectories": [
         {
             "path": "sfdx-source/apex-mocks",
-            "default": true
+            "package": "apex-mock",
+            "versionNumber": "1.0.0.NEXT",
+            "default": true,
+            "definitionFile": "config/project-scratch-def.json"
         }
     ],
     "namespace": "",
