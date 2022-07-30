@@ -1,0 +1,4 @@
+{"metric":"sfpowerscripts.build.scheduled","type":"count","timestamp":1659190674609,"tags":{"is_diffcheck_enabled":"false","stage":"build","branch":"master"}}
+{"metric":"sfpowerscripts.build.scheduled.packages","type":"count","timestamp":1659190676073,"tags":{"package":"apex-mock","type":"unlocked","is_diffcheck_enabled":"false","is_dependency_validated":"true","pr_mode":"false"}}
+{"metric":"sfpowerscripts.build.failed.packages","type":"count","timestamp":1659190676097,"tags":{"package":"apex-mock"}}
+{"metric":"sfpowerscripts.build.failed","type":"count","timestamp":1659190676098}

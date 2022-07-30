@@ -1,0 +1,16 @@
+{
+    "packages": [
+        {
+            "name": "apex-mock",
+            "version": null,
+            "elapsed_time": null,
+            "status": "failed"
+        }
+    ],
+    "summary": {
+        "scheduled_packages": 1,
+        "elapsed_time": 1489,
+        "succeeded": 0,
+        "failed": 1
+    }
+}
