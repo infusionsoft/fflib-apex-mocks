@@ -1,0 +1,17 @@
+{
+    "packageDirectories": [
+        {
+            "path": "sfdx-source/apex-mocks",
+            "package": "apex-mock",
+            "versionNumber": "1.0.0.NEXT",
+            "default": true,
+            "definitionFile": "config/project-scratch-def.json"
+        }
+    ],
+    "sfdcLoginUrl": "https://login.salesforce.com",
+    "sourceApiVersion": "55.0",
+    "packageAliases": {
+        "apex-mock": "0Ho3a000000k9bXCAQ",
+        "apex-mock@1.0.0-13": "04t3a000000PmdlAAC"
+    }
+}

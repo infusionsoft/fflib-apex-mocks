@@ -1,1 +1,13 @@
-ENOENT: no such file or directory, stat '.forceignore'
+Source converted successfully to E:\dev\github\keap\fflib-apex-mocks\.sfpowerscripts\guSHB_source\.sfpowerscripts\C6ctR_mdapi
+command: create  package
+package name: apex-mock
+package type: unlocked
+package directory: sfdx-source/apex-mocks
+-------------------------------------------------------------------------------------------
+Fetching Package Type Info from DevHub
+Package  apex-mock
+IsOrgDependent No
+Package Id  0Ho3a000000k9bXCAQ
+-------------------------
+Fetching Version Number and Coverage details
+Successfully Retrieved the Apex Test Coverage of the package version

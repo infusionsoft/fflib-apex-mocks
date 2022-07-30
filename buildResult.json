@@ -2,15 +2,15 @@
     "packages": [
         {
             "name": "apex-mock",
-            "version": null,
-            "elapsed_time": null,
-            "status": "failed"
+            "version": "1.0.0.13",
+            "elapsed_time": 170213,
+            "status": "succeeded"
         }
     ],
     "summary": {
         "scheduled_packages": 1,
-        "elapsed_time": 1489,
-        "succeeded": 0,
-        "failed": 1
+        "elapsed_time": 174307,
+        "succeeded": 1,
+        "failed": 0
     }
 }

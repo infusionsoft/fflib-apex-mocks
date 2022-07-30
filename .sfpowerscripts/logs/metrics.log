@@ -1,4 +1,10 @@
-{"metric":"sfpowerscripts.build.scheduled","type":"count","timestamp":1659190674609,"tags":{"is_diffcheck_enabled":"false","stage":"build","branch":"master"}}
-{"metric":"sfpowerscripts.build.scheduled.packages","type":"count","timestamp":1659190676073,"tags":{"package":"apex-mock","type":"unlocked","is_diffcheck_enabled":"false","is_dependency_validated":"true","pr_mode":"false"}}
-{"metric":"sfpowerscripts.build.failed.packages","type":"count","timestamp":1659190676097,"tags":{"package":"apex-mock"}}
-{"metric":"sfpowerscripts.build.failed","type":"count","timestamp":1659190676098}
+{"metric":"sfpowerscripts.build.scheduled","type":"count","timestamp":1659190857372,"tags":{"is_diffcheck_enabled":"false","stage":"build","branch":"master"}}
+{"metric":"sfpowerscripts.build.scheduled.packages","type":"count","timestamp":1659190857555,"tags":{"package":"apex-mock","type":"unlocked","is_diffcheck_enabled":"false","is_dependency_validated":"true","pr_mode":"false"}}
+{"metric":"sfpowerscripts.package.testcoverage","type":"guage","value":99,"timestamp":1659191031059,"tags":{"package":"apex-mock","from":"createpackage"}}
+{"metric":"sfpowerscripts.package.metadatacount","type":"guage","value":39,"timestamp":1659191031060,"tags":{"package":"apex-mock","type":"unlocked"}}
+{"metric":"sfpowerscripts.package.created","type":"count","timestamp":1659191031060,"tags":{"package":"apex-mock","type":"unlocked","is_dependency_validated":"true"}}
+{"metric":"sfpowerscripts.package.elapsed.time","type":"timers","value":170213,"timestamp":1659191031061,"tags":{"package":"apex-mock","type":"unlocked","is_dependency_validated":"true"}}
+{"metric":"sfpowerscripts.package.creation.elapsed_time","type":"timers","value":170213,"timestamp":1659191031061,"tags":{"package":"apex-mock","type":"unlocked","is_dependency_validated":"true"}}
+{"metric":"sfpowerscripts.build.succeeded.packages","type":"count","timestamp":1659191031064,"tags":{"package":"apex-mock","type":"unlocked","is_diffcheck_enabled":"false","is_dependency_validated":"true","pr_mode":"false"}}
+{"metric":"sfpowerscripts.build.duration","type":"guage","value":174307,"timestamp":1659191031679,"tags":{"is_diffcheck_enabled":"false","stage":"build","branch":"master"}}
+{"metric":"sfpowerscripts.build.succeeded","type":"count","timestamp":1659191031679,"tags":{"is_diffcheck_enabled":"false","stage":"build","branch":"master"}}
