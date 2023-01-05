@@ -19,8 +19,7 @@ jobs:
           mkdir sfdx-cli
           tar xJf sfdx-linux-amd64.tar.xz -C sfdx-cli --strip-components 1
           ./sfdx-cli/install
-          echo ${{ secrets.SFDX_AUTH_URL }} > sfdx_auth
-          sfdx force:auth:sfdxurl:store -f sfdx_auth -d
+          sfdx force:auth:sfdxurl:store -f token.txt -a DevHub -d
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
