@@ -39,13 +39,7 @@ sfdx-source/untracked/
 .execanon
 
 # NPM Related
-package.json
 /node_modules
-package-lock.json
-
-
-sfdx-source/group*
-research/
 
 # Salesforce cache
 .sf/
@@ -67,9 +61,6 @@ pmd-report.csv
 # Draw.io
 *.drawio.bkp
 *.drawio.dtmp
-
-# Node
-package-lock.json
 
 # Cumulus CI
 # robot/va-teams/doc
