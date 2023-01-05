@@ -11,7 +11,6 @@
     "cci:push": "cci task run dx_push",
     "cci:runTests": "cci task run run_tests",
     "cci:robot": "cci task run robot",
-    "cci:robot_testdoc": "cci task run robot_testdoc",
     "list:packages": "sfdx force:package:list",
     "list:package:versions": "sfdx force:package:version:list",
     "debug": "sfdx force:apex:log:tail --color | grep -e 'USER_DEBUG'",
