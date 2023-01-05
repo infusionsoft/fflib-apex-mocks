@@ -63,6 +63,7 @@ pmd-report.csv
 *.drawio.dtmp
 
 # Cumulus CI
+.cci/
 log.html
 output.xml
 report.html
