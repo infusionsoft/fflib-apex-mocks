@@ -33,7 +33,7 @@ jobs:
           pip install cumulusci
       - name: Build Org and Execute Tests
         run: |
-          export CUMULUSCI_KEY=sppy5bcenow5rz87
+          CUMULUSCI_KEY=sppy5bcenow5rz87
           cci flow run dev --org dev
       - name: Delete Scratch Org
         if: ${{ always() }}
@@ -64,7 +64,7 @@ jobs:
           pip install cumulusci
       - name: Build Org and Execute Tests
         run: |
-          export CUMULUSCI_KEY=sppy5bcenow5rz87
+          CUMULUSCI_KEY=sppy5bcenow5rz87
           cci flow run dev --org dev
           cci task run robot --org dev -o vars BROWSER:headlesschrome
       - name: Store robot results
