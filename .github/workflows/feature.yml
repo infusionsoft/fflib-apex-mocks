@@ -34,7 +34,7 @@ jobs:
           pip install cumulusci
       - name: Build Org and Execute Tests
         run: |
-          cci flow run dev_org --org dev
+          cci flow run ci_feature --org dev
       - name: Delete Scratch Org
         if: ${{ always() }}
         run: |
@@ -64,8 +64,8 @@ jobs:
           pip install cumulusci
       - name: Build Org and Execute Tests
         run: |
-          cci flow run dev_org --org dev
-          cci task run robot --org dev -o vars BROWSER:headlesschrome
+          cci flow run qa_org --org qa
+          cci task run robot --org qa -o vars BROWSER:headlesschrome
       - name: Store robot results
         uses: actions/upload-artifact@v1
         with:
