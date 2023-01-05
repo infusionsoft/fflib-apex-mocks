@@ -63,7 +63,8 @@ pmd-report.csv
 *.drawio.dtmp
 
 # Cumulus CI
-# robot/va-teams/doc
-robot/fflib-apex-mocks/results
+log.html
+output.xml
+report.html
 test_results.json
 test_results.xml
