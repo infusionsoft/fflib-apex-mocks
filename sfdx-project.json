@@ -1,11 +1,10 @@
 {
     "packageDirectories": [
         {
-            "path": "sfdx-source/apex-mocks",
+            "path": "force-app",
             "package": "apex-mock",
             "versionNumber": "1.0.0.NEXT",
-            "default": true,
-            "definitionFile": "config/project-scratch-def.json"
+            "default": true
         }
     ],
     "sfdcLoginUrl": "https://login.salesforce.com",

@@ -70,3 +70,9 @@ pmd-report.csv
 
 # Node
 package-lock.json
+
+# Cumulus CI
+# robot/va-teams/doc
+robot/fflib-apex-mocks/results
+test_results.json
+test_results.xml
