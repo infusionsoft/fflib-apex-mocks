@@ -1,8 +1,8 @@
-name: Feature Test (QA Automation)
+name: Package Beta
 on:
   push:
     branches:
-      - feature/**
+      - master
 env:
   CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
   CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
@@ -30,12 +30,15 @@ jobs:
         run: |
           python -m pip install -U pip
           pip install cumulusci
-      - name: Build Org and Execute Tests
+      - name: Create Beta Package Version
         run: |
-          cci flow run ci_feature --org qa
+          cci flow run release_unlocked_beta --org beta
+      - name: Install Beta Package into Beta
+        run: |
+          cci flow run install_beta --org beta
       - name: Run Robot Tests
         run: |
-          cci task run robot --org qa -o vars BROWSER:headlesschrome
+          cci task run robot --org beta -o vars BROWSER:headlesschrome
       - name: Store robot results
         uses: actions/upload-artifact@v1
         with:
@@ -44,4 +47,4 @@ jobs:
       - name: Delete Scratch Org
         if: ${{ always() }}
         run: |
-          cci org scratch_delete qa
+          cci org scratch_delete beta
