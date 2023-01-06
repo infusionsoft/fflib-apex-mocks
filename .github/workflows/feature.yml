@@ -1,4 +1,4 @@
-name: Feature Test
+name: Feature Test (QA Automation)
 on:
   push:
     branches:
@@ -33,43 +33,18 @@ jobs:
           pip install cumulusci
       - name: Build Org and Execute Tests
         run: |
-          cci flow run ci_feature --org dev
-      - name: Delete Scratch Org
-        if: ${{ always() }}
+          cci flow run ci_feature --org qa
+      - name: Run Robot Tests
         run: |
-          cci org scratch_delete dev
-  robot_tests:
-    name: "Run Robot Framework Tests"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Write the token into a file
-        run: 'echo ${{secrets.DEVHUB_TOKEN}} > token.txt'
-      - name: Install sfdx
-        run: |
-          wget https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
-          mkdir sfdx-cli
-          tar xJf sfdx-linux-amd64.tar.xz -C sfdx-cli --strip-components 1
-          ./sfdx-cli/install
-      - name: Auth with the DevHub
-        run: 'sfdx force:auth:sfdxurl:store -f token.txt -a DevHub -d'
-      - name: Set up Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: "3.8"
-      - name: Install CumulusCI
-        run: |
-          python -m pip install -U pip
-          pip install cumulusci
-      - name: Build Org and Execute Tests
-        run: |
-          cci flow run qa_org --org qa
           cci task run robot --org qa -o vars BROWSER:headlesschrome
       - name: Store robot results
         uses: actions/upload-artifact@v1
         with:
           name: robot
           path: robot/fflib-apex-mocks/results
+      - name: Create Beta Package Version
+        run: |
+          cci flow run release_unlocked_beta --org qa
       - name: Delete Scratch Org
         if: ${{ always() }}
         run: |
