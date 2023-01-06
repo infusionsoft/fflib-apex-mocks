@@ -1,4 +1,4 @@
-name: Package Beta
+name: Packaging
 on:
   push:
     branches:
@@ -8,7 +8,7 @@ env:
   CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
 jobs:
   unit_tests:
-    name: "Validate Build"
+    name: "Package Beta"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
