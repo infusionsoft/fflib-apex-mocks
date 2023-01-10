@@ -7,8 +7,16 @@ jobs:
     name: "Promote Beta"
     runs-on: ubuntu-latest
     steps:
-      - name: Clone Repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Write the token into a file
+        run: 'echo ${{secrets.DEVHUB_TOKEN}} > token.txt'
+      - name: Install sfdx
+        run: 'npm install sfdx-cli --global'
+      - name: Auth with the DevHub
+        run: 'sfdx force:auth:sfdxurl:store -f token.txt -a DevHub -d'
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
