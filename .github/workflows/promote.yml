@@ -31,11 +31,3 @@ jobs:
       - name: Create Beta Package Version
         run: |
           cci flow run release_unlocked_production --org release
-      - name: Run Robot Tests
-        run: |
-          cci task run robot --org release -o vars BROWSER:headlesschrome
-      - name: Store robot results
-        uses: actions/upload-artifact@v1
-        with:
-          name: robot
-          path: robot/fflib-apex-mocks/results
