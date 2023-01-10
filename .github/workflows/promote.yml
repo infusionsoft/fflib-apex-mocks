@@ -2,6 +2,9 @@
 
 name: Promote Beta to Released
 on: [ workflow_dispatch ]
+env:
+  CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
+  CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
 jobs:
   example:
     name: "Promote Beta"
