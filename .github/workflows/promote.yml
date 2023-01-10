@@ -1,14 +1,13 @@
-name: Packaging
-on:
-  push:
-    branches:
-      - master
+# .github/workflows/example-1.yml
+
+name: Promote Beta to Released
+on: [ workflow_dispatch ]
 env:
   CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
   CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
 jobs:
-  unit_tests:
-    name: "Package Beta"
+  example:
+    name: "Promote Beta"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -29,21 +28,6 @@ jobs:
         run: |
           python -m pip install -U pip
           pip install cumulusci
-      - name: Create Beta Package Version
+      - name: Promote to Release
         run: |
-          cci flow run release_unlocked_beta --org beta
-      - name: Install Beta Package into Beta
-        run: |
-          cci flow run install_beta --org beta
-      - name: Run Robot Tests
-        run: |
-          cci task run robot --org beta -o vars BROWSER:headlesschrome
-      - name: Store robot results
-        uses: actions/upload-artifact@v1
-        with:
-          name: robot
-          path: robot/fflib-apex-mocks/results
-      - name: Delete Scratch Org
-        if: ${{ always() }}
-        run: |
-          cci org scratch_delete beta
+          cci flow run release_unlocked_production --org release
