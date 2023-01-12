@@ -22,4 +22,5 @@ npm run cci:setDefaultScratch
 
 That's it, you are ready to work in your scratch org.
 
+[force build]
 
