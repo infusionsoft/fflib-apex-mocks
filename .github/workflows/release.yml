@@ -28,4 +28,4 @@ jobs:
           pip install cumulusci
       - name: Build Org and Execute Tests
         run: |
-          cci org release_unlocked_production --org release
+          cci flow run release_unlocked_production --org release
