@@ -1,13 +1,11 @@
-# .github/workflows/example-1.yml
-
-name: Promote Beta to Released
+name: Release
 on: [ workflow_dispatch ]
 env:
   CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
   CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
 jobs:
-  example:
-    name: "Promote Beta"
+  release_test:
+    name: "Release Test"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,7 +15,7 @@ jobs:
       - name: Write the token into a file
         run: 'echo ${{secrets.DEVHUB_TOKEN}} > token.txt'
       - name: Install sfdx
-        run: 'npm install sfdx-cli --global'
+        run: "npm install sfdx-cli --global"
       - name: Auth with the DevHub
         run: 'sfdx force:auth:sfdxurl:store -f token.txt -a DevHub -d'
       - name: Set up Python
@@ -28,6 +26,6 @@ jobs:
         run: |
           python -m pip install -U pip
           pip install cumulusci
-      - name: Promote to Release
+      - name: Build Org and Execute Tests
         run: |
-          cci flow run release_unlocked_production --org release
+          cci org release_unlocked_production --org release
