@@ -43,3 +43,6 @@ jobs:
       - name: Create Beta Package Version
         run: |
           cci flow run release_unlocked_beta --org beta
+      - name: Release Beta
+        run: |
+          cci flow run release_unlocked_production --org release
