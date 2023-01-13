@@ -8,32 +8,8 @@ env:
   CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
   CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
 jobs:
-  unit_tests:
-    name: "Run Apex Tests"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: Write the token into a file
-        run: 'echo ${{secrets.DEVHUB_TOKEN}} > token.txt'
-      - name: Install sfdx
-        run: "npm install sfdx-cli --global"
-      - name: Auth with the DevHub
-        run: 'sfdx force:auth:sfdxurl:store -f token.txt -a DevHub -d'
-      - name: Set up Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: "3.8"
-      - name: Install CumulusCI
-        run: |
-          python -m pip install -U pip
-          pip install cumulusci
-      - name: Build Org and Execute Tests
-        run: "cci flow run ci_feature --org dev"
   robot_tests:
-    name: "Run Robot Framework Tests"
+    name: "Run Automated Tests"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -54,9 +30,12 @@ jobs:
         run: |
           python -m pip install -U pip
           pip install cumulusci
-      - name: Build Org and Execute Tests
+      - name: Build QA Org
         run: |
           cci flow run qa_org --org qa
+      - name: Run Unit and Robot Tests
+        run: |
+          cci task run run_tests --org qa
           cci task run robot --org qa -o vars BROWSER:headlesschrome
       - name: Store robot results
         uses: actions/upload-artifact@v1
