@@ -8,7 +8,7 @@ env:
   CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
 jobs:
   beta_test:
-    name: "Create Beta Package"
+    name: "Create Package"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -29,7 +29,7 @@ jobs:
         run: |
           python -m pip install -U pip
           pip install cumulusci
-      - name: Create Release Scratch Org and Run Unit Tests
+      - name: Create Scratch Org and Run Unit Tests
         run: |
           cci flow run ci_beta --org beta
       - name: Run Robot Tests
@@ -40,6 +40,6 @@ jobs:
         with:
           name: robot
           path: robot/fflib-apex-mocks/results
-      - name: Create Beta Package Version
+      - name: Create Package Version
         run: |
           cci flow run release_unlocked_production --org beta -o create_package_version__version_base latest_github_release
