@@ -1,0 +1,36 @@
+name: Release Beta Package
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Desired Package Version
+        required: true
+env:
+  CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
+  CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
+jobs:
+  promote_beta:
+    name: "Promote Beta"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Write the token into a file
+        run: 'echo ${{secrets.DEVHUB_TOKEN}} > token.txt'
+      - name: Install sfdx
+        run: "npm install sfdx-cli --global"
+      - name: Auth with the DevHub
+        run: 'sfdx force:auth:sfdxurl:store -f token.txt -a DevHub -d'
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+      - name: Install CumulusCI
+        run: |
+          python -m pip install -U pip
+          pip install cumulusci
+      - name: Promote Beta
+        run: |
+          cci flow run release_unlocked_production -o version ${{ github.event.inputs.version }}
