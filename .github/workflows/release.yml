@@ -3,7 +3,8 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: Desired Package Version
+        description: Desired Package Version Id (04t)
+        default: 04t
         required: true
 env:
   CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
@@ -33,4 +34,4 @@ jobs:
           pip install cumulusci
       - name: Promote Beta
         run: |
-          cci flow run release_unlocked_production --org release __ -o version ${{ github.event.inputs.version }}
+          cci flow run release_unlocked_production --org release --version_id version ${{ github.event.inputs.version }}
