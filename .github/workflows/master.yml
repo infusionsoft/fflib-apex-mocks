@@ -35,4 +35,5 @@ jobs:
         run: |
           cci flow run release_2gp_beta --org beta
       - name: Release Beta Package
+        run: |
           cci flow run release_unlocked_production --org beta
