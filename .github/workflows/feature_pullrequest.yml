@@ -1,14 +1,14 @@
-name: Feature Test
+name: Feature Pull Request Test
 on:
-  push:
+  pull_request:
     branches:
       - feature/**
 env:
   CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
   CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
 jobs:
-  validate_feature:
-    name: "Validate Feature"
+  regression_feature:
+    name: "Regression Feature"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -29,9 +29,15 @@ jobs:
         run: |
           python -m pip install -U pip
           pip install cumulusci
-      - name: Create Dev Scratch Org
+      - name: Create QA Scratch Org
         run: |
-          cci flow run dev_org --org dev
-      - name: Run Unit Tests
+          cci flow run qa_org --org qa
+      - name: Run Unit and Robot Tests
         run: |
-          cci task run run_tests --org dev
+          cci task run run_tests --org qa
+          cci task run robot --org qa -o vars BROWSER:headlesschrome
+      - name: Store robot results
+        uses: actions/upload-artifact@v1
+        with:
+          name: robot
+          path: robot/fflib-apex-mocks/results
