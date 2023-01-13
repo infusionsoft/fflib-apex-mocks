@@ -31,9 +31,11 @@ jobs:
           pip install cumulusci
       - name: Create Scratch Org and Run Unit Tests
         run: |
+          cci org scratch_delete release 
           cci flow run ci_release --org release
       - name: Run Robot Tests
         run: |
+          cci org scratch_delete release
           cci task run robot --org release -o vars BROWSER:headlesschrome
       - name: Store robot results
         uses: actions/upload-artifact@v1
