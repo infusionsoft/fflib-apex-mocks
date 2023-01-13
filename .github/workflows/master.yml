@@ -31,7 +31,6 @@ jobs:
           pip install cumulusci
       - name: Create Scratch Org and Run Unit Tests
         run: |
-          cci org scratch_delete release 
           cci flow run ci_release --org release
       - name: Run Robot Tests
         run: |
