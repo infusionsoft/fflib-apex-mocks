@@ -32,7 +32,7 @@ jobs:
           pip install cumulusci
       - name: Create Beta Package Version
         run: |
-          cci flow run release_2gp_beta --org beta
+          cci flow run build_unlocked_test_package --org beta
       - name: Release Beta Package
         run: |
           cci flow run release_unlocked_production --org beta
