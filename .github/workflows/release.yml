@@ -33,4 +33,4 @@ jobs:
           pip install cumulusci
       - name: Promote Beta
         run: |
-          cci flow run release_unlocked_production --org release -o version ${{ github.event.inputs.version }}
+          cci flow run release_unlocked_production --org release __ -o version ${{ github.event.inputs.version }}
