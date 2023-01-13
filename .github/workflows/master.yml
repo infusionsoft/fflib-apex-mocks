@@ -2,9 +2,8 @@ name: Package Test
 on:
   workflow_run:
     workflows: ["Feature Pull Request Test"]
-    branches: [master]
-    types:
-      - completed
+    branches:
+      - master
 env:
   CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
   CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
