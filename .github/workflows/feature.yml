@@ -35,3 +35,7 @@ jobs:
       - name: Run Unit Tests
         run: |
           cci task run run_tests --org dev
+      - name: Delete Scratch Org
+        if: ${{ always() }}
+        run: |
+          cci org scratch_delete dev

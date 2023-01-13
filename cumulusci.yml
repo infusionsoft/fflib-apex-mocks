@@ -9,6 +9,13 @@ project:
         name_match: '%Test'
     source_format: sfdx
 
+orgs:
+  scratch:
+    dev:
+      config_file: orgs/dev.json
+      days: 30
+      namespaced: False
+
 tasks:
     robot:
         options:
