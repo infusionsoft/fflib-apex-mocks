@@ -31,10 +31,10 @@ jobs:
           pip install cumulusci
       - name: Create Scratch Org and Run Unit Tests
         run: |
-          cci flow run ci_beta --org beta
+          cci flow run ci_release --org release
       - name: Run Robot Tests
         run: |
-          cci task run robot --org beta -o vars BROWSER:headlesschrome
+          cci task run robot --org release -o vars BROWSER:headlesschrome
       - name: Store robot results
         uses: actions/upload-artifact@v1
         with:
@@ -42,4 +42,5 @@ jobs:
           path: robot/fflib-apex-mocks/results
       - name: Create Package Version
         run: |
-          cci flow run release_unlocked_production --org beta -o create_package_version__version_base latest_github_release
+          cci flow run release_unlocked_production --org release
+          cci task run github_automerge_main
