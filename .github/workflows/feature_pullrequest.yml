@@ -2,7 +2,7 @@ name: Feature Pull Request Test
 on:
   pull_request:
     branches:
-      - feature/**
+      - master
 env:
   CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
   CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
