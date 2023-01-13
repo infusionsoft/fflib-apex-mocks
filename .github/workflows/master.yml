@@ -39,3 +39,8 @@ jobs:
         run: |
           cci flow run release_unlocked_production --org release
           cci task run github_automerge_main
+      - name: Delete Scratch Orgs
+        if: ${{ always() }}
+        run: |
+          cci org scratch_delete beta
+          cci org scratch_delete release

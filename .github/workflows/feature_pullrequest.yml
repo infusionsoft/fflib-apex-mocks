@@ -41,3 +41,7 @@ jobs:
         with:
           name: robot
           path: robot/fflib-apex-mocks/results
+      - name: Delete Scratch Org
+          if: ${{ always() }}
+          run: |
+            cci org scratch_delete qa
