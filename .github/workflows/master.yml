@@ -1,4 +1,4 @@
-name: Package Test
+name: Package Build
 on:
   push:
     branches:
@@ -8,7 +8,7 @@ env:
   CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
 jobs:
   beta_test:
-    name: "Create Beta Package"
+    name: "Create Package"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -29,20 +29,17 @@ jobs:
         run: |
           python -m pip install -U pip
           pip install cumulusci
-      - name: Create Beta Scratch Org and Running Unit Tests
+      - name: Create Scratch Org and Run Unit Tests
         run: |
-          cci flow run ci_beta --org beta
-      - name: Run Robot Tests
+          cci flow run ci_release --org release
+      - name: Delete Scratch Org
+        if: ${{ always() }}
         run: |
-          cci task run robot --org beta -o vars BROWSER:headlesschrome
-      - name: Store robot results
-        uses: actions/upload-artifact@v1
-        with:
-          name: robot
-          path: robot/fflib-apex-mocks/results
-      - name: Create Beta Package Version
+          cci org scratch_delete release
+      - name: Create Package Version
         run: |
           cci flow run release_unlocked_beta --org beta
       - name: Release Beta
         run: |
           cci flow run release_unlocked_production --org release
+          cci task run github_automerge_main
