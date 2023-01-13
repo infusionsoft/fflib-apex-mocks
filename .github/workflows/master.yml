@@ -1,10 +1,8 @@
 name: Package Test
 on:
-  workflow_run:
-    workflows: ["Feature Pull Request Test"]
-    branches: [master]
-    types:
-      - completed
+  push:
+    branches:
+      - master
 env:
   CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
   CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
@@ -31,8 +29,20 @@ jobs:
         run: |
           python -m pip install -U pip
           pip install cumulusci
+      - name: Create QA Scratch Org
+        run: |
+          cci flow run ci_beta --org beta
+      - name: Run Robot Tests
+        run: |
+          cci task run robot --org beta -o vars BROWSER:headlesschrome
+      - name: Store robot results
+        uses: actions/upload-artifact@v1
+        with:
+          name: robot
+          path: robot/fflib-apex-mocks/results
       - name: Create Beta Package Version
         run: |
-          cci flow run release_2gp_beta --org beta
+          cci flow run release_unlocked_beta --org beta
       - name: Release Beta Package
+        run: |
           cci flow run release_unlocked_production --org beta
