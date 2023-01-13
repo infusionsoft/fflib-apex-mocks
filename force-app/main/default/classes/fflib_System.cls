@@ -17,6 +17,7 @@ public class fflib_System
 	 */
 	public static void assertEquals(Object ignoredRetval, Object value)
 	{
+        System.debug('fflib_System');
 		assertEquals(ignoredRetval, value, null);
 	}
 
