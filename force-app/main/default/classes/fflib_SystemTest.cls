@@ -10,6 +10,7 @@ private class fflib_SystemTest {
             System.assert(false, 'Expected exception');
         } catch (fflib_ApexMocks.ApexMocksException e) {
             System.assertEquals('fflib_System.assertEquals expects you to register exactly 1 fflib_IMatcher (typically through the helpers in fflib_Match).', e.getMessage());
+            System.assert(true);
         }
     }
 
