@@ -64,6 +64,8 @@ pmd-report.csv
 
 # Cumulus CI
 .cci/
+src/
+robot/*/results
 log.html
 output.xml
 report.html
