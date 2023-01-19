@@ -31,11 +31,11 @@ jobs:
           pip install cumulusci
       - name: Create QA Scratch Org
         run: |
-          cci flow run qa_org --org qa
+          cci flow run dev_org --org qa
       - name: Run Unit and Robot Tests
         run: |
           cci task run run_tests --org qa
-          cci task run robot --org qa -o vars BROWSER:headlesschrome
+          cci task run robot --org dev -o vars BROWSER:headlesschrome
       - name: Store robot results
         uses: actions/upload-artifact@v1
         with:

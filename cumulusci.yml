@@ -14,7 +14,7 @@ orgs:
     dev:
       config_file: orgs/dev.json
       days: 30
-      namespaced: False
+      namespaced: false
 
 tasks:
     robot:

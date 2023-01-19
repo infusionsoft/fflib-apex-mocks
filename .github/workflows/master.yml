@@ -31,16 +31,19 @@ jobs:
           pip install cumulusci
       - name: Create Scratch Org and Run Unit Tests
         run: |
-          cci flow run ci_beta --org beta
-      - name: Create Package Version
+          cci flow run ci_master --org qa
+      - name: Create Beta Package Version
         run: |
-          cci flow run release_unlocked_beta --org beta
-      - name: Release Beta
+          cci flow run release_unlocked_beta --org qa
+      - name: Release Beta Package Version
         run: |
+          cci flow run ci_beta --org release
           cci flow run release_unlocked_production --org release
+          #cci flow run install_prod --org INT
+          #cci flow run install_prod --org STAGING
           cci task run github_automerge_main
       - name: Delete Scratch Orgs
         if: ${{ always() }}
         run: |
-          cci org scratch_delete beta
+          cci org scratch_delete qa
           cci org scratch_delete release
