@@ -25,12 +25,12 @@ jobs:
           python -m pip install -U pip
           pip install cumulusci
       - name: Write the token into a file
-        run: 'echo ${{secrets.CUMULUS_DEV_AUTH}} > dev.txt'
+        run: 'echo ${{secrets.DEV_TOKEN}} > auth.txt'
       - name: Auth with Dev
-        run: 'sfdx force:auth:sfdxurl:store -f dev.txt -a merge -d'
+        run: 'sfdx force:auth:sfdxurl:store -f auth.txt -a dev -d'
       - name: Import Org into CCI
         run: 'cci org import dev dev'
-      - name: Deploy to Merge
+      - name: Deploy to Dev
         run: |
           cci flow run dependencies --org dev
           cci flow run deploy_unmanaged --org dev
