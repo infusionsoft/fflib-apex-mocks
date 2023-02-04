@@ -6,7 +6,7 @@
     "cci:createScratch": "cci flow run dev_org --org dev",
     "cci:deleteScratch": "cci org scratch_delete dev",
     "cci:listOrgs": "cci org list",
-    "cci:setDefaultScratch": "cci org default dev",
+    "cci:setDefault": "cci org default dev",
     "cci:openScratch": "cci org browser dev",
     "cci:push": "cci task run dx_push",
     "cci:runTests": "cci task run run_tests",
