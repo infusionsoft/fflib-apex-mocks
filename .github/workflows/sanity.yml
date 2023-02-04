@@ -1,0 +1,22 @@
+name: Sanity Check
+on:
+  push:
+    branches:
+      - feature/*
+jobs:
+  sanity:
+    name: Run Static Code Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install sfdx
+        run: "npm install sfdx-cli --global"
+      - name: Install sfdx Scanner Plugin
+        run: "sfdx plugins:install @salesforce/sfdx-scanner"
+      - name: Code Scan (GATE DISABLED)
+        run: |
+          echo GATE DISABLED. Add -s 3 to enable.
+          sfdx scanner:run -t ./force-app/ --pmdconfig ./config/pmd/apex_ruleset.xml
