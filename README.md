@@ -10,14 +10,14 @@
 }
 ```  
 
-3. Run "createScratchOrg.sh" to create a new scratch org.
+3. Create scratch org.
 ```
 npm run cci:createScratch
 ```  
 
 4. One time per repo, you may want to set your default username
 ```bash
-npm run cci:setDefaultScratch
+npm run cci:setDefault
 ```
 
 That's it, you are ready to work in your scratch org.
