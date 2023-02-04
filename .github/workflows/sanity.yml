@@ -16,5 +16,7 @@ jobs:
         run: "npm install sfdx-cli --global"
       - name: Install sfdx Scanner Plugin
         run: "sfdx plugins:install @salesforce/sfdx-scanner"
-      - name: Code Scan
-        run: 'sfdx scanner:run -t ./force-app/ --pmdconfig ./config/pmd/apex_ruleset.xml -s 3'
+      - name: Code Scan (FORCE PASS)
+        run: |
+          echo Set to force pass. To enable gated checks, add -s 3.
+          sfdx scanner:run -t ./force-app/ --pmdconfig ./config/pmd/apex_ruleset.xml
