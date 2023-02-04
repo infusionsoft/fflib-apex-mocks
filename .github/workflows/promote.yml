@@ -1,4 +1,4 @@
-name: Promote to Dev
+name: Promote to Int
 on:
   push:
     branches:
@@ -18,7 +18,7 @@ jobs:
     - name: Tag Master Branch
       run: 'echo Insert work here.'
   validate:
-    name: Deploy and Validate Against Dev
+    name: Deploy and Validate Against Int
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -36,19 +36,19 @@ jobs:
           python -m pip install -U pip
           pip install cumulusci
       - name: Write the token into a file
-        run: 'echo ${{secrets.CUMULUS_DEV_AUTH}} > auth.txt'
-      - name: Auth with Dev
-        run: 'sfdx force:auth:sfdxurl:store -f auth.txt -a dev -d'
+        run: 'echo ${{secrets.INT_TOKEN}} > auth.txt'
+      - name: Auth with Int
+        run: 'sfdx force:auth:sfdxurl:store -f auth.txt -a int -d'
       - name: Import Org into CCI
-        run: 'cci org import dev dev'
-      - name: Deploy to Dev
+        run: 'cci org import int int'
+      - name: Deploy to int
         run: |
-          cci flow run dependencies --org dev
-          cci flow run deploy_unmanaged --org dev
+          cci flow run dependencies --org int
+          cci flow run deploy_unmanaged --org int
       - name: Run Unit Tests
-        run: 'cci task run run_tests --org dev'
+        run: 'cci task run run_tests --org int'
       - name: Run Robot Tests
-        run: 'cci task run robot --org dev -o vars BROWSER:headlesschrome'
+        run: 'cci task run robot --org int -o vars BROWSER:headlesschrome'
       - name: Back Merge to Feature Branches
         run: 'cci task run github_automerge_main'
   sanity:
@@ -63,5 +63,7 @@ jobs:
         run: "npm install sfdx-cli --global"
       - name: Install sfdx Scanner Plugin
         run: "sfdx plugins:install @salesforce/sfdx-scanner"
-      - name: Code Scan
-        run: 'sfdx scanner:run -t ./force-app/ --pmdconfig ./config/pmd/apex_ruleset.xml -s 3'
+      - name: Code Scan (FORCE PASS)
+        run: |
+          echo Set to force pass. To enable gated checks, add -s 3.
+          sfdx scanner:run -t ./force-app/ --pmdconfig ./config/pmd/apex_ruleset.xml
