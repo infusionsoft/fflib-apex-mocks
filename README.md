@@ -20,6 +20,6 @@ npm run cci:createScratch
 npm run cci:setDefault
 ```
 
-That's it, you are ready to work in your scratch org.  [force build]
+That's it, you are ready to work in your scratch org.
 
 
