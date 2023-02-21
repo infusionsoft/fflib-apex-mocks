@@ -16,13 +16,17 @@ jobs:
         with:
           node-version: 16
       - name: Write the token into a file
-        run: 'echo ${{secrets.DEVHUB_TOKEN}} > token.txt'
+        run: |
+          echo ${{secrets.DEVHUB_TOKEN}} > token.txt
+          echo ${{secrets.INT_TOKEN}} > int_token.txt
+          echo ${{secrets.STAGING_TOKEN}} > staging_token.txt
       - name: Install sfdx
         run: "npm install sfdx-cli --global"
       - name: Auth with the DevHub
-        run: 'sfdx force:auth:sfdxurl:store -f token.txt -a DevHub -d'
+        run: |
+          sfdx force:auth:sfdxurl:store -f token.txt -a DevHub -d
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
           python-version: "3.10"
       - name: Install CumulusCI
@@ -39,9 +43,17 @@ jobs:
         run: |
           cci flow run ci_beta --org release
           cci flow run release_unlocked_production --org release
-          cci flow run install_prod --org INT
-          cci flow run install_prod --org STAGING
           cci task run github_automerge_main
+      - name: Install into INT
+        run: |
+          sfdx force:auth:sfdxurl:store -f int_token.txt -a int -d
+          cci org import int int
+          cci flow run install_prod --org int
+      - name: Install into STAGING
+        run: |
+          sfdx force:auth:sfdxurl:store -f staging_token.txt -a staging -d
+          cci org import staging staging
+          cci flow run install_prod --org staging
       - name: Delete Scratch Orgs
         if: ${{ always() }}
         run: |
