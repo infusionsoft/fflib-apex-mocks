@@ -39,8 +39,8 @@ jobs:
         run: |
           cci flow run ci_beta --org release
           cci flow run release_unlocked_production --org release
-          #cci flow run install_prod --org INT
-          #cci flow run install_prod --org STAGING
+          cci flow run install_prod --org INT
+          cci flow run install_prod --org STAGING
           cci task run github_automerge_main
       - name: Delete Scratch Orgs
         if: ${{ always() }}
