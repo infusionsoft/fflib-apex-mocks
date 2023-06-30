@@ -1,0 +1,46 @@
+name: Promote to Stage
+on:
+  workflow_dispatch:
+env:
+  CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
+  CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
+jobs:
+  promote:
+    name: Package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install Command Line Tools
+        run: |
+          npm install sfdx-cli --global
+          npm install @salesforce/cli --global
+          python -m pip install -U pip
+          pip install cumulusci
+      - name: Auth with DevHub
+        run: |
+          echo ${{secrets.DEVHUB_TOKEN}} > devhub.txt
+          sfdx force:auth:sfdxurl:store -f devhub.txt -a DevHub -d
+      - name: Create Beta & Test
+        run: |
+          cci flow run dependencies --org release
+          cci flow run release_unlocked_beta --org release
+          cci flow run ci_beta --org release
+      - name: Release Beta
+        run: |
+          cci flow run release_unlocked_production --org release
+      - name: Delete Scratch Org
+        if: ${{ always() }}
+        run: |
+          cci org scratch_delete release
+      - name: Deploy Release to Staging
+        run: |
+          echo ${{secrets.STAGING_TOKEN}} > staging.txt
+          sfdx force:auth:sfdxurl:store -f staging.txt -a staging
+          cci org import staging staging
+          cci flow run install_prod --org staging
