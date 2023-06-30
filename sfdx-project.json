@@ -5,7 +5,7 @@
       "default": true
     }
   ],
-  "name": "fflib-apex-mocks",
+  "name": "apex-mock",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "57.0"
