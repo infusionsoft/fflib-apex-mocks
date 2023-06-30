@@ -1,25 +1,18 @@
-# Keap apex-mocks
+# Salesforce DX Project: Next Steps
 
-## Getting Started
-1. Clone this repo
+Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
 
-2. Create a .sfdx directory, a file named "sfdx-config.json" inside that directory, and update your default devhub email address
-```
-{
-     "defaultdevhubusername": "<your_email>@keap.com"
-}
-```  
+## How Do You Plan to Deploy Your Changes?
 
-3. Create scratch org.
-```
-npm run cci:createScratch
-```  
+Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
 
-4. One time per repo, you may want to set your default username
-```bash
-npm run cci:setDefault
-```
+## Configure Your Salesforce DX Project
 
-That's it, you are ready to work in your scratch org.
+The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
 
+## Read All About It
 
+- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
+- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
+- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
+- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
