@@ -5,7 +5,8 @@
 /**
  * @nodoc
  */
-@isTest
+@IsTest
+@SuppressWarnings('PMD.ApexDoc, PMD.ClassNamingConventions, PMD.UnusedLocalVariable, PMD.ApexUnitTestClassShouldHaveAsserts')
 private class fflib_AnswerTest {
     private static fflib_InvocationOnMock actualInvocation = null;
 

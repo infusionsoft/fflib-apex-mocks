@@ -7,6 +7,7 @@
  *	This interface must be implemented inside the test class and implement the call back method answer.
  *	@group Core
  */
+@SuppressWarnings('PMD.ApexDoc, PMD.ClassNamingConventions')
 public interface fflib_Answer
 {
 	/**
