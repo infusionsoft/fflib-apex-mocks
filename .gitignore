@@ -35,11 +35,13 @@ IlluminatedCloud
 # SFDX Related
 .sfdx/
 .sf/
+sfdx-config.json
 sfdx-source/untracked/
 .execanon
 
 # NPM Related
 /node_modules
+package-lock.json
 
 # Salesforce cache
 .sf/
@@ -71,3 +73,5 @@ output.xml
 report.html
 test_results.json
 test_results.xml
+/docs/scanner/scan-report.csv
+/logs.csv

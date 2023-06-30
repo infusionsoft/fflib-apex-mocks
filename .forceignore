@@ -3,7 +3,6 @@
 #
 
 package.xml
-force-app/main/default/profiles
 
 # LWC configuration files
 **/jsconfig.json
@@ -11,4 +10,3 @@ force-app/main/default/profiles
 
 # LWC Jest
 **/__tests__/**
-

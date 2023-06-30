@@ -1,4 +1,4 @@
-name: Package Build
+name: Deploy to INT
 on:
   push:
     branches:
@@ -7,24 +7,21 @@ env:
   CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
   CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
 jobs:
-  beta_test:
-    name: "Create Package"
+  deployint:
+    name: Deploy to INT
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Write the token into a file
+      - name: Install sfdx & sf Executable
         run: |
-          echo ${{secrets.DEVHUB_TOKEN}} > token.txt
-          echo ${{secrets.INT_TOKEN}} > int_token.txt
-          echo ${{secrets.STAGING_TOKEN}} > staging_token.txt
-      - name: Install sfdx
-        run: "npm install sfdx-cli --global"
-      - name: Auth with the DevHub
-        run: |
-          sfdx force:auth:sfdxurl:store -f token.txt -a DevHub -d
+          npm install sfdx-cli --global
+          npm install @salesforce/cli --global
+          echo y | sfdx plugins:install sfdx-git-delta
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -33,29 +30,36 @@ jobs:
         run: |
           python -m pip install -U pip
           pip install cumulusci
-      - name: Create Scratch Org and Run Unit Tests
+      - name: Write the token into a file
+        run: 'echo ${{secrets.INT_TOKEN}} > auth.txt'
+      - name: Auth with INT
+        run: 'sfdx force:auth:sfdxurl:store -f auth.txt -a int -d'
+      - name: Import Org into CCI
+        run: 'cci org import int int'
+      - name: Deploy to INT
         run: |
-          cci flow run ci_master --org qa
-      - name: Create Beta Package Version
+          cci flow run dependencies --org int
+          sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output "."
+          sf project deploy start --verbose -x package/package.xml --post-destructive-changes destructiveChanges/destructiveChanges.xml --target-org int --ignore-conflicts --wait 45
+  automergemain:
+    name: Back Merge
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install sfdx & sf Executable
         run: |
-          cci flow run release_unlocked_beta --org qa
-      - name: Release Beta Package Version
+          npm install sfdx-cli --global
+          npm install @salesforce/cli --global
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install CumulusCI
         run: |
-          cci flow run ci_beta --org release
-          cci flow run release_unlocked_production --org release
-          cci task run github_automerge_main
-      - name: Install into INT
-        run: |
-          sfdx force:auth:sfdxurl:store -f int_token.txt -a int -d
-          cci org import int int
-          cci flow run install_prod --org int
-      - name: Install into STAGING
-        run: |
-          sfdx force:auth:sfdxurl:store -f staging_token.txt -a staging -d
-          cci org import staging staging
-          cci flow run install_prod --org staging
-      - name: Delete Scratch Orgs
-        if: ${{ always() }}
-        run: |
-          cci org scratch_delete qa
-          cci org scratch_delete release
+          python -m pip install -U pip
+          pip install cumulusci
+      - name: Back Merge to Feature Branches
+        run: 'cci task run github_automerge_main'

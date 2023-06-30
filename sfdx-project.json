@@ -1,15 +1,12 @@
 {
-    "packageDirectories": [
-        {
-            "path": "force-app",
-            "package": "apex-mock",
-            "versionNumber": "1.0.0.NEXT",
-            "default": true
-        }
-    ],
-    "sfdcLoginUrl": "https://login.salesforce.com",
-    "sourceApiVersion": "55.0",
-    "packageAliases": {
-        "apex-mock": "0Ho3a000000k9bXCAQ"
+  "packageDirectories": [
+    {
+      "path": "force-app",
+      "default": true
     }
+  ],
+  "name": "fflib-apex-mocks",
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "57.0"
 }

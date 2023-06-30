@@ -1,0 +1,79 @@
+name: Validate PR
+on:
+  pull_request:
+    branches:
+      - master
+env:
+  CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
+  CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
+jobs:
+  validate:
+    name: Validate PR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install sfdx & sf Executable
+        run: |
+          npm install sfdx-cli --global
+          npm install @salesforce/cli --global
+          echo y | sfdx plugins:install sfdx-git-delta
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install CumulusCI
+        run: |
+          python -m pip install -U pip
+          pip install cumulusci
+      - name: Write the token into a file
+        run: 'echo ${{secrets.STAGING_TOKEN}} > auth.txt'
+      - name: Auth with STAGE
+        run: 'sfdx force:auth:sfdxurl:store -f auth.txt -a stage -d'
+      - name: Import Org into CCI
+        run: 'cci org import stage stage'
+      - name: Deploy to STAGE (Check Only)
+        run: |
+          cci flow run dependencies --org stage
+          sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output "."
+          sf project deploy start --verbose --dry-run -x package/package.xml --post-destructive-changes destructiveChanges/destructiveChanges.xml --target-org stage --ignore-conflicts --wait 45
+      #- name: Run Unit Tests
+      #  run: 'cci task run run_tests --org stage'
+      #- name: Run Robot Tests
+      #  run: 'cci task run robot --org stage -o vars BROWSER:headlesschrome'
+  sanity:
+    name: Run Scanner
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Copy files
+        run: |
+          SOURCE_BRANCH=${GITHUB_HEAD_REF}
+          TARGET_BRANCH=${GITHUB_BASE_REF}
+
+          API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}"
+          PR_DATA=$(curl -sSL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" $API_URL)
+          CHANGES_URL=$(echo "${PR_DATA}" | jq -r '.url + "/files"')
+          CHANGED_FILES=$(curl -sSL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" $CHANGES_URL | jq -r '.[] | select(.status != "removed") | select(.filename | contains("force-app")) | .filename')
+
+          mkdir ./changed_files
+          readarray -t CHANGED_FILES_ARRAY <<< "$CHANGED_FILES"
+          for changed_file in "${CHANGED_FILES_ARRAY[@]}" 
+          do
+            echo "$changed_file"
+            cp --parents "$changed_file" -t ./changed_files
+          done
+      - name: Install sfdx and scanner plugin
+        run: |
+          npm install sfdx-cli --global
+          sfdx plugins:install @salesforce/sfdx-scanner
+      - name: Code Scan
+        run: |
+          sfdx scanner:run -t ./changed_files -s 3

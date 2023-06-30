@@ -1,59 +1,49 @@
 {
-  "private": true,
-  "scripts": {
-    "cci:captureData": "cci task run capture_sample_data --dataset dev",
-    "cci:loadData": "cci task run load_sample_data --dataset dev",
-    "cci:createScratch": "cci flow run dev_org --org dev",
-    "cci:deleteScratch": "cci org scratch_delete dev",
-    "cci:listOrgs": "cci org list",
-    "cci:setDefaultScratch": "cci org default dev",
-    "cci:openScratch": "cci org browser dev",
-    "cci:push": "cci task run dx_push",
-    "cci:runTests": "cci task run run_tests",
-    "cci:robot": "cci task run robot",
-    "list:packages": "sfdx force:package:list",
-    "list:package:versions": "sfdx force:package:version:list",
-    "debug": "sfdx force:apex:log:tail --color | grep -e 'USER_DEBUG'",
-    "list": "sfdx force:org:list",
-    "open": "sfdx force:org:open",
-    "pmd": "sfdx scanner:run -t ./force-app/main/default/classes/ --pmdconfig ./config/pmd/apex_ruleset.xml",
-    "pmd:report": "sfdx scanner:run -t ./force-app/main/default/classes/ --pmdconfig ./config/pmd/apex_ruleset.xml --outfile ./config/pmd/pmd-report.csv",
-    "prettier": "prettier --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
-    "prettier:verify": "prettier --list-different \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
-    "push:force": "sfdx force:source:push -f --wait 30",
-    "test:apex:all": "sfdx force:apex:test:run --testlevel RunLocalTests --wait 30 --resultformat human",
-    "test:unit": "npm run test:lwc:unit",
-    "test:lwc": "npm run test:lwc:unit",
-    "test:lwc:unit": "sfdx-lwc-jest",
-    "test:lwc:unit:coverage": "sfdx-lwc-jest --coverage",
-    "test:lwc:unit:debug": "sfdx-lwc-jest --debug",
-    "test:lwc:unit:watch": "sfdx-lwc-jest --watch"
-  },
-  "dependencies": {
-    "@salesforce/apex": "0.0.12",
-    "lwc": "^1.7.14"
-  },
-  "devDependencies": {
-    "@prettier/plugin-xml": "^1.1.0",
-    "@salesforce/eslint-config-lwc": "^3.2.0",
-    "@salesforce/eslint-plugin-aura": "^2.0.0",
-    "@salesforce/sfdx-lwc-jest": "^1.1.0",
-    "@salesforce/sfdx-scanner": "^2.12.0",
-    "eslint": "^8.14.0",
-    "eslint-config-prettier": "^8.3.0",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.1.2",
-    "prettier": "^2.5.1",
-    "prettier-plugin-apex": "^1.10.0",
-    "minimist": "^1.2.6",
-    "chalk": "^5.0.1",
-    "shelljs": "^0.8.5",
-    "ansi-regex": "^6.0.1",
-    "follow-redirects": "^1.14.9",
-    "jsen": "^0.6.6"
-  },
-  "lint-staged": {
-    "**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}": "prettier --write",
-    "**/aura|lwc/**": "eslint"
-  }
+    "private": true,
+    "scripts": {
+        "cci:captureData": "cci task run capture_sample_data --dataset dev",
+        "cci:loadData": "cci task run load_sample_data --dataset dev",
+        "cci:createScratch": "cci flow run dev_org --org dev",
+        "cci:deleteScratch": "cci org scratch_delete dev",
+        "cci:dep": "cci flow run dependencies --org dev",
+        "cci:orgs": "cci org list",
+        "cci:setDefault": "cci org default dev",
+        "cci:open": "cci org browser dev",
+        "cci:push": "cci task run dx_push",
+        "cci:test": "cci task run run_tests",
+        "cci:robot": "cci task run robot",
+        "lint": "eslint **/{aura,lwc}/**",
+        "test": "npm run test:unit",
+        "test:unit": "sfdx-lwc-jest",
+        "test:unit:watch": "sfdx-lwc-jest --watch",
+        "test:unit:debug": "sfdx-lwc-jest --debug",
+        "test:unit:coverage": "sfdx-lwc-jest --coverage",
+        "prettier": "prettier --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
+        "prettier:verify": "prettier --list-different \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
+        "postinstall": "husky install",
+        "precommit": "lint-staged"
+    },
+    "devDependencies": {
+        "@lwc/eslint-plugin-lwc": "^1.1.2",
+        "@prettier/plugin-xml": "^2.0.1",
+        "@salesforce/eslint-config-lwc": "^3.2.3",
+        "@salesforce/eslint-plugin-aura": "^2.0.0",
+        "@salesforce/eslint-plugin-lightning": "^1.0.0",
+        "@salesforce/sfdx-lwc-jest": "^1.1.0",
+        "eslint": "^8.11.0",
+        "eslint-plugin-import": "^2.25.4",
+        "eslint-plugin-jest": "^26.1.2",
+        "husky": "^7.0.4",
+        "lint-staged": "^12.3.7",
+        "prettier": "^2.6.0",
+        "prettier-plugin-apex": "^1.10.0"
+    },
+    "lint-staged": {
+        "**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}": [
+            "prettier --write"
+        ],
+        "**/{aura,lwc}/**": [
+            "eslint"
+        ]
+    }
 }
